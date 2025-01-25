@@ -33,7 +33,7 @@ function ShadiLoan() {
       var monthlyInstallment = totalAmount / parseInt(loanPeriod);
       Swal.fire({
         title:
-          "Your installment amount is " + monthlyInstallment,
+          "Your installment amount is " + Math.ceil(monthlyInstallment),
         text: "You won't be able to revert this!",
         icon: "warning",
         showCancelButton: true,
