@@ -1,9 +1,9 @@
-"use client"
+"use client";
 import React, { useState } from "react";
 import { db } from "../utils/firebase";
 import { doc, setDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
-import { handleSendEmail } from "./actions/actions";
+import { handleSendEmail } from "../actions/actions";
 const page = () => {
   const router = useRouter();
   const [formData, setFormData] = useState({
@@ -24,13 +24,18 @@ const page = () => {
       return;
     }
     var psw = Date.now().toString(36);
-    var x = localStorage.getItem("userData")
+    var x = localStorage.getItem("userData");
     if (x) {
       var parsedData = JSON.parse(x);
+      
     }
-    await setDoc(doc(db, "auth", formData.cnic), {...formData,psw,parsedData});
+    await setDoc(doc(db, "auth", formData.cnic), {
+      ...formData,
+      psw,
+      parsedData,
+    });
     alert("Data saved successfully!");
-    await handleSendEmail(formData.email,psw);
+    await handleSendEmail(formData.email, psw);
     setFormData({
       cnic: "",
       name: "",
@@ -113,9 +118,9 @@ const page = () => {
           <button
             type="submit"
             style={{
-              backgroundImage: 'linear-gradient(to right top, #008000, #2e8b57, #3cb371, #66cdaa, #8fbc8f)',
+              backgroundImage:
+                "linear-gradient(to right top, #008000, #2e8b57, #3cb371, #66cdaa, #8fbc8f)",
             }}
-            
             className="w-full  text-white py-2 px-4 rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           >
             Submit Application
