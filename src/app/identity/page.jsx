@@ -12,6 +12,8 @@ const page = () => {
     email: "",
     status: false
   });
+  console.log(formData.cnic);
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,7 +21,9 @@ const page = () => {
   };
 
   const handleSubmit = async (e) => {
+
     e.preventDefault();
+    
     if (!formData.cnic) {
       alert("CNIC is required to save data!");
       return;
@@ -43,6 +47,7 @@ const page = () => {
       email: "",
     });
     router.push("/");
+    
   };
 
   return (

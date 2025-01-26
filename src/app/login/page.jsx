@@ -13,7 +13,7 @@ const page = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log("TCL: handleSubmit -> ", cnic);
+    localStorage.setItem("NIC",cnic)
     const docRef = doc(db, "auth", cnic);
     const docSnap = await getDoc(docRef);
 

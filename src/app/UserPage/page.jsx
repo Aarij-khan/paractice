@@ -1,25 +1,46 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "@/app/utils/firebase";
+import { useRouter } from "next/router";
 
 function Page() {
+    const router = useRouter()
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true); 
+  const [cnic, setCnic] = useState("");
+  const [loading, setLoading] = useState(true);
 
-  async function fetchData() {
-    setLoading(true); 
-    const querySnapshot = await getDocs(collection(db, "auth"));
-    const fetchedData = [];
-    querySnapshot.forEach((doc) => {
-      fetchedData.push({ ...doc.data(), id: doc.id });
-    });
-    setData(fetchedData);
-    setLoading(false); 
+  // Fetch data from Firestore with a `where` clause
+  async function fetchData(nic) {
+    setLoading(true); // Show loading indicator
+
+    try {
+      // Query Firestore with the provided CNIC
+      const q = query(collection(db, "auth"), where("cnic", "==", nic));
+      const querySnapshot = await getDocs(q);
+
+      // Process and set data
+      const fetchedData = querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      setData(fetchedData);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false); // Hide loading indicator
+    }
   }
 
   useEffect(() => {
-    fetchData();
+    // Retrieve CNIC from localStorage and fetch data
+    const nic = localStorage.getItem("NIC");
+    if (nic) {
+      setCnic(nic);
+      fetchData(nic);
+    }else{
+      router.push("/login")
+    }
   }, []);
 
   if (loading) {
@@ -38,11 +59,20 @@ function Page() {
             key={idx}
             className="bg-white shadow-lg rounded-lg p-6 border border-gray-200"
           >
-            <div className="flex justify-end mr-2">
-              <div className={` p-2 rounded-3xl  ${item.parsedData?.status == false ? "bg-red-500" : "bg-green-500"}`}>
-               {item.parsedData?.status == false ? "Pending" : "Approved"}
+            {/* Status Badge */}
+            <div className="flex justify-end">
+              <div
+                className={`p-2 rounded-3xl ${
+                  item.parsedData?.status === false
+                    ? "bg-red-500 text-white"
+                    : "bg-green-500 text-white"
+                }`}
+              >
+                {item.parsedData?.status === false ? "Pending" : "Approved"}
               </div>
             </div>
+
+            {/* User Information */}
             <p className="text-lg font-bold mb-2">User Information</p>
             <div className="text-sm flex flex-col gap-2">
               <p>
@@ -82,4 +112,5 @@ function Page() {
     </div>
   );
 }
+
 export default Page;
