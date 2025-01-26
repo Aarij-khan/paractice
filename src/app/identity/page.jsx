@@ -10,6 +10,7 @@ const page = () => {
     cnic: "",
     name: "",
     email: "",
+    status: false
   });
 
   const handleChange = (e) => {

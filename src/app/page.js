@@ -47,6 +47,7 @@ function page() {
           class="w-72 h-[26vh]   shadow p-4 space-y-2 rounded-md hover:-translate-y-2 duration-300"
           onClick={() => {
             localStorage.setItem("purpose", JSON.stringify(wedding))
+            router.push('/static')
           }}
         >
           <svg
