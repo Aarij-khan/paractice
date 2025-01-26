@@ -33,7 +33,7 @@ function page() {
   return (
     <>
       <div className='w-full flex justify-between pt-10'>
-        <div className='w-1/2 p-6 flex flex-col gap-4 h-[50vh] justify-center '>
+        <div className='w-1/2 p-6 flex flex-col gap-4 h-[50vh] justify-center px-20'>
           <h1 className='font-extrabold text-4xl'>Microfinance (Apna Karoobar)</h1>
           <p>typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
         </div>
